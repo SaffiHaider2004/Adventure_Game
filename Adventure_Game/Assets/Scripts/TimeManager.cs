@@ -2,108 +2,122 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class TimeManager : MonoBehaviour
+public class TimeController : MonoBehaviour
 {
-    [SerializeField] private Texture2D skyboxNight;
-    [SerializeField] private Texture2D skyboxSunrise;
-    [SerializeField] private Texture2D skyboxDay;
-    [SerializeField] private Texture2D skyboxSunset;
+    [SerializeField]
+    private float timeMultiplier;
 
-    [SerializeField] private Gradient graddientNightToSunrise;
-    [SerializeField] private Gradient graddientSunriseToDay;
-    [SerializeField] private Gradient graddientDayToSunset;
-    [SerializeField] private Gradient graddientSunsetToNight;
+    [SerializeField]
+    private float startHour;
 
-    [SerializeField] private Light globalLight;
+    [SerializeField]
+    private TextMeshProUGUI timeText;
 
-    private int minutes;
+    [SerializeField]
+    private Light sunLight;
 
-    public int Minutes
-    { get { return minutes; } set { minutes = value; OnMinutesChange(value); } }
+    [SerializeField]
+    private float sunriseHour;
 
-    private int hours = 5;
+    [SerializeField]
+    private float sunsetHour;
 
-    public int Hours
-    { get { return hours; } set { hours = value; OnHoursChange(value); } }
+    [SerializeField]
+    private Color dayAmbientLight;
 
-    private int days;
+    [SerializeField]
+    private Color nightAmbientLight;
 
-    public int Days
-    { get { return days; } set { days = value; } }
+    [SerializeField]
+    private AnimationCurve lightChangeCurve;
 
-    private float tempSecond;
+    [SerializeField]
+    private float maxSunLightIntensity;
 
-    public void Update()
+    [SerializeField]
+    private Light moonLight;
+
+    [SerializeField]
+    private float maxMoonLightIntensity;
+
+    private DateTime currentTime;
+
+    private TimeSpan sunriseTime;
+
+    private TimeSpan sunsetTime;
+
+    // Start is called before the first frame update
+    void Start()
     {
-        tempSecond += Time.deltaTime;
+        currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
 
-        if (tempSecond >= 1)
+        sunriseTime = TimeSpan.FromHours(sunriseHour);
+        sunsetTime = TimeSpan.FromHours(sunsetHour);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateTimeOfDay();
+        RotateSun();
+        UpdateLightSettings();
+    }
+
+    private void UpdateTimeOfDay()
+    {
+        currentTime = currentTime.AddSeconds(Time.deltaTime * timeMultiplier);
+
+        if (timeText != null)
         {
-            Minutes += 1;
-            tempSecond = 0;
+            timeText.text = currentTime.ToString("HH:mm");
         }
     }
 
-    private void OnMinutesChange(int value)
+    private void RotateSun()
     {
-        globalLight.transform.Rotate(Vector3.up, (1f / (1440f / 4f)) * 360f, Space.World);
-        if (value >= 60)
+        float sunLightRotation;
+
+        if (currentTime.TimeOfDay > sunriseTime && currentTime.TimeOfDay < sunsetTime)
         {
-            Hours++;
-            minutes = 0;
+            TimeSpan sunriseToSunsetDuration = CalculateTimeDifference(sunriseTime, sunsetTime);
+            TimeSpan timeSinceSunrise = CalculateTimeDifference(sunriseTime, currentTime.TimeOfDay);
+
+            double percentage = timeSinceSunrise.TotalMinutes / sunriseToSunsetDuration.TotalMinutes;
+
+            sunLightRotation = Mathf.Lerp(0, 180, (float)percentage);
         }
-        if (Hours >= 24)
+        else
         {
-            Hours = 0;
-            Days++;
+            TimeSpan sunsetToSunriseDuration = CalculateTimeDifference(sunsetTime, sunriseTime);
+            TimeSpan timeSinceSunset = CalculateTimeDifference(sunsetTime, currentTime.TimeOfDay);
+
+            double percentage = timeSinceSunset.TotalMinutes / sunsetToSunriseDuration.TotalMinutes;
+
+            sunLightRotation = Mathf.Lerp(180, 360, (float)percentage);
         }
+
+        sunLight.transform.rotation = Quaternion.AngleAxis(sunLightRotation, Vector3.right);
     }
 
-    private void OnHoursChange(int value)
+    private void UpdateLightSettings()
     {
-        if (value == 6)
-        {
-            StartCoroutine(LerpSkybox(skyboxNight, skyboxSunrise, 10f));
-            StartCoroutine(LerpLight(graddientNightToSunrise, 10f));
-        }
-        else if (value == 8)
-        {
-            StartCoroutine(LerpSkybox(skyboxSunrise, skyboxDay, 10f));
-            StartCoroutine(LerpLight(graddientSunriseToDay, 10f));
-        }
-        else if (value == 18)
-        {
-            StartCoroutine(LerpSkybox(skyboxDay, skyboxSunset, 10f));
-            StartCoroutine(LerpLight(graddientDayToSunset, 10f));
-        }
-        else if (value == 22)
-        {
-            StartCoroutine(LerpSkybox(skyboxSunset, skyboxNight, 10f));
-            StartCoroutine(LerpLight(graddientSunsetToNight, 10f));
-        }
+        float dotProduct = Vector3.Dot(sunLight.transform.forward, Vector3.down);
+        sunLight.intensity = Mathf.Lerp(0, maxSunLightIntensity, lightChangeCurve.Evaluate(dotProduct));
+        moonLight.intensity = Mathf.Lerp(maxMoonLightIntensity, 0, lightChangeCurve.Evaluate(dotProduct));
+        RenderSettings.ambientLight = Color.Lerp(nightAmbientLight, dayAmbientLight, lightChangeCurve.Evaluate(dotProduct));
     }
 
-    private IEnumerator LerpSkybox(Texture2D a, Texture2D b, float time)
+    private TimeSpan CalculateTimeDifference(TimeSpan fromTime, TimeSpan toTime)
     {
-        RenderSettings.skybox.SetTexture("_Texture1", a);
-        RenderSettings.skybox.SetTexture("_Texture2", b);
-        RenderSettings.skybox.SetFloat("_Blend", 0);
-        for (float i = 0; i < time; i += Time.deltaTime)
-        {
-            RenderSettings.skybox.SetFloat("_Blend", i / time);
-            yield return null;
-        }
-        RenderSettings.skybox.SetTexture("_Texture1", b);
-    }
+        TimeSpan difference = toTime - fromTime;
 
-    private IEnumerator LerpLight(Gradient lightGradient, float time)
-    {
-        for (float i = 0; i < time; i += Time.deltaTime)
+        if (difference.TotalSeconds < 0)
         {
-            globalLight.color = lightGradient.Evaluate(i / time);
-            RenderSettings.fogColor = globalLight.color;
-            yield return null;
+            difference += TimeSpan.FromHours(24);
         }
+
+        return difference;
     }
 }
