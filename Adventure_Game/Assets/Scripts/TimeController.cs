@@ -19,7 +19,7 @@ public class TimeController : MonoBehaviour
     private Light sunLight;
 
     [SerializeField]
-    private float sunriseHour;
+    public float sunriseHour;
 
     [SerializeField]
     private float sunsetHour;
@@ -120,4 +120,9 @@ public class TimeController : MonoBehaviour
 
         return difference;
     }
+    public DateTime GetCurrentTime()
+    {
+        return currentTime;
+    }
+
 }
