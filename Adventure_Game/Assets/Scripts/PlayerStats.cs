@@ -21,8 +21,8 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Sprinting")]
 
-    public float walkSpeed = 10.0f;
-    public float sprintSpeed = 20.0f;
+    public float walkSpeed = 5.0f;
+    public float sprintSpeed = 10.0f;
 
     public CharacterController cC;
 
