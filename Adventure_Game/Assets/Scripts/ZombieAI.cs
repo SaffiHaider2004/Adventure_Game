@@ -13,8 +13,10 @@ public class ZombieAI : MonoBehaviour
     [SerializeField] private float detectionRange = 10f;
     [SerializeField] private float attackRange = 2f;
     [SerializeField] private float attackCooldown = 1.5f;
+    [SerializeField] private float damageAmount = 10f;
 
     private NavMeshAgent agent;
+    private Animator animator;
     private float lastAttackTime;
     private float nextPatrolTime;
     private Vector3 patrolOrigin;
@@ -25,6 +27,7 @@ public class ZombieAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
         patrolOrigin = transform.position;
 
         if (player == null && GameObject.FindWithTag("Player") != null)
@@ -43,6 +46,7 @@ public class ZombieAI : MonoBehaviour
         {
             case ZombieState.Patrolling:
                 Patrol();
+                animator.SetBool("isWalking", true);
 
                 if (distanceToPlayer <= detectionRange)
                     currentState = ZombieState.Chasing;
@@ -50,6 +54,7 @@ public class ZombieAI : MonoBehaviour
 
             case ZombieState.Chasing:
                 agent.SetDestination(player.position);
+                animator.SetBool("isWalking", true);
 
                 if (distanceToPlayer <= attackRange)
                     currentState = ZombieState.Attacking;
@@ -59,14 +64,10 @@ public class ZombieAI : MonoBehaviour
 
             case ZombieState.Attacking:
                 agent.ResetPath();
+                animator.SetBool("isWalking", false);
 
                 transform.LookAt(player.position);
-
-                if (Time.time - lastAttackTime >= attackCooldown)
-                {
-                    lastAttackTime = Time.time;
-                    AttackPlayer(); // Implement this for your game logic
-                }
+                AttackPlayer();
 
                 if (distanceToPlayer > attackRange)
                     currentState = ZombieState.Chasing;
@@ -84,6 +85,7 @@ public class ZombieAI : MonoBehaviour
             if (NavMesh.SamplePosition(randomDirection, out hit, patrolRadius, NavMesh.AllAreas))
             {
                 agent.SetDestination(hit.position);
+                animator.SetBool("isWalking", true);
             }
 
             nextPatrolTime = Time.time + patrolInterval;
@@ -92,9 +94,20 @@ public class ZombieAI : MonoBehaviour
 
     private void AttackPlayer()
     {
-        Debug.Log($"{gameObject.name} attacks the player!");
+        if (Time.time - lastAttackTime >= attackCooldown)
+        {
+            lastAttackTime = Time.time;
+            animator.SetTrigger("attack");
 
-        // You can trigger an animation or apply damage here
-        // e.g., player.GetComponent<PlayerHealth>().TakeDamage(10);
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer <= attackRange)
+            {
+                PlayerStats stats = player.GetComponent<PlayerStats>();
+                if (stats != null)
+                {
+                    stats.TakeDamage(damageAmount);
+                }
+            }
+        }
     }
 }

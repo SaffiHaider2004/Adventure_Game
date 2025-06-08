@@ -18,7 +18,7 @@ public class PlayerJoystickMovement : MonoBehaviour
 
     private Vector3 velocity;
     public float gravity = -9.81f;
-    public float jumpForce = 1f;
+    public float jumpForce = 2f;
 
     [Header("Stats")]
     public PlayerStats playerStats;
@@ -113,13 +113,32 @@ public class PlayerJoystickMovement : MonoBehaviour
         punchRequested = true;
     }
 
+    public float punchRange = 2f;
+    public LayerMask zombieLayer;
     public void HandlePunch()
     {
         if (punchRequested)
         {
-            animator.SetTrigger("punch"); // Plays the punch animation once
+            animator.SetTrigger("punch");
+
+            Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward, punchRange, zombieLayer);
+
+            foreach (var hit in hits)
+            {
+                ZombieHealth zombie = hit.GetComponent<ZombieHealth>();
+                if (zombie != null)
+                {
+                    zombie.TakeDamage(1);
+                    zombie.ShowHealthBar(true);
+                }
+            }
         }
 
         punchRequested = false;
+    }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + transform.forward, punchRange);
     }
 }
