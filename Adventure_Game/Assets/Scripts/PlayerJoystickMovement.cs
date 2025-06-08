@@ -12,7 +12,7 @@ public class PlayerJoystickMovement : MonoBehaviour
 
     [Header("Surface Check")]
     public Transform surfaceCheck;
-    public float surfaceDistance = 0.4f;
+    public float surfaceDistance = 0.6f;
     public LayerMask surfaceMask;
     private bool onSurface;
 
@@ -26,6 +26,9 @@ public class PlayerJoystickMovement : MonoBehaviour
     private float turnSmoothVelocity;
     public float turnSmoothTime = 0.1f;
 
+    private bool jumpRequested = false;
+    private bool isJumping = false;
+
     void Update()
     {
         GroundCheck();
@@ -38,7 +41,16 @@ public class PlayerJoystickMovement : MonoBehaviour
     {
         onSurface = Physics.CheckSphere(surfaceCheck.position, surfaceDistance, surfaceMask);
         if (onSurface && velocity.y < 0)
+        {
             velocity.y = -2f;
+
+            // If player has landed, reset jumping state
+            if (isJumping)
+            {
+                isJumping = false;
+                animator.SetBool("isJumping", false);
+            }
+        }
     }
 
     void ApplyGravity()
@@ -59,29 +71,36 @@ public class PlayerJoystickMovement : MonoBehaviour
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            // Sprint logic based on stamina and external button press
-            float moveSpeed = playerStats.isSprinting && playerStats.GetStamina() > 0f ? playerStats.sprintSpeed : playerStats.walkSpeed;
+            float moveSpeed = playerStats.isSprinting && playerStats.GetStamina() > 0f
+                ? playerStats.sprintSpeed
+                : playerStats.walkSpeed;
 
             cC.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
 
-            animator.SetBool("idle", false);
             animator.SetBool("walk", !playerStats.isSprinting);
             animator.SetBool("running", playerStats.isSprinting);
         }
         else
         {
-            animator.SetBool("idle", true);
             animator.SetBool("walk", false);
             animator.SetBool("running", false);
         }
     }
 
-    void HandleJump()
+    public void JumpRequest()
     {
-        if (onSurface && Input.GetButtonDown("Jump"))
+        jumpRequested = true;
+    }
+
+    public void HandleJump()
+    {
+        if (onSurface && jumpRequested && !isJumping)
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
-            animator.SetTrigger("jump");
+            isJumping = true;
+            animator.SetBool("isJumping", true);
         }
+
+        jumpRequested = false;
     }
 }
