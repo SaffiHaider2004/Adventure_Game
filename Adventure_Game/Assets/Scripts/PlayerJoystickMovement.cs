@@ -1,7 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.UI;
+
 public class PlayerJoystickMovement : MonoBehaviour
 {
     [Header("Joystick Settings")]
@@ -29,12 +29,15 @@ public class PlayerJoystickMovement : MonoBehaviour
     private bool jumpRequested = false;
     private bool isJumping = false;
 
+    private bool punchRequested = false;
+
     void Update()
     {
         GroundCheck();
         ApplyGravity();
         MovePlayer();
         HandleJump();
+        HandlePunch();
     }
 
     void GroundCheck()
@@ -44,7 +47,6 @@ public class PlayerJoystickMovement : MonoBehaviour
         {
             velocity.y = -2f;
 
-            // If player has landed, reset jumping state
             if (isJumping)
             {
                 isJumping = false;
@@ -75,6 +77,7 @@ public class PlayerJoystickMovement : MonoBehaviour
                 ? playerStats.sprintSpeed
                 : playerStats.walkSpeed;
 
+            // Move player only if not mid-punch (optional: you can disable this if needed)
             cC.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
 
             animator.SetBool("walk", !playerStats.isSprinting);
@@ -102,5 +105,21 @@ public class PlayerJoystickMovement : MonoBehaviour
         }
 
         jumpRequested = false;
+    }
+
+    public void PunchRequest()
+    {
+        
+        punchRequested = true;
+    }
+
+    public void HandlePunch()
+    {
+        if (punchRequested)
+        {
+            animator.SetTrigger("punch"); // Plays the punch animation once
+        }
+
+        punchRequested = false;
     }
 }
