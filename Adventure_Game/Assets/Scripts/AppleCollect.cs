@@ -8,14 +8,14 @@ public class AppleCollect : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayerInventory inventory = other.GetComponent<PlayerInventory>();
-            if (inventory != null)
-            {
-                inventory.CollectApple();
-            }
+            // Add health or score logic here
+            Debug.Log("Apple collected!");
+
+            // Optional: access player script and heal
+
+
+            // Destroy the apple
             Destroy(gameObject);
         }
     }
-
-
 }
