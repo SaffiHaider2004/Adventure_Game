@@ -12,7 +12,7 @@ public class AppleCollect : MonoBehaviour
             Debug.Log("Apple collected!");
 
             // Optional: access player script and heal
-           
+
 
             // Destroy the apple
             Destroy(gameObject);
