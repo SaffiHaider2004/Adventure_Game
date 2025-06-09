@@ -3,13 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
+public class ZombieType
+{
+    public GameObject prefab;
+    [Range(0, 100)]
+    public int spawnChance; // percentage chance (50/40/10 for female/male/monster)
+}
+
 public class ZombieSpawner : MonoBehaviour
 {
     [Header("Time Control Reference")]
     [SerializeField] private TimeController timeController;
 
     [Header("Zombie Settings")]
-    [SerializeField] private GameObject zombiePrefab;
+    [SerializeField] private List<ZombieType> zombieTypes;
     [SerializeField] private float spawnInterval = 10f;
     [SerializeField] private int maxZombiesAtOnce = 10;
     [SerializeField] private float minSpawnDistance = 15f;
@@ -24,12 +32,12 @@ public class ZombieSpawner : MonoBehaviour
 
     void Update()
     {
-        if (timeController == null || player == null || zombiePrefab == null)
+        if (timeController == null || player == null || zombieTypes == null || zombieTypes.Count == 0)
             return;
 
         TimeSpan currentTime = timeController.GetCurrentTime().TimeOfDay;
         TimeSpan nightStart = TimeSpan.FromHours(19); // 7 PM
-        TimeSpan nightEnd = TimeSpan.FromHours(timeController.sunriseHour); // Morning
+        TimeSpan nightEnd = TimeSpan.FromHours(timeController.sunriseHour);
 
         bool currentlyNight = currentTime >= nightStart || currentTime < nightEnd;
 
@@ -44,7 +52,6 @@ public class ZombieSpawner : MonoBehaviour
             if (spawnCoroutine != null)
                 StopCoroutine(spawnCoroutine);
 
-            // Optionally destroy all zombies in the morning
             foreach (var zombie in spawnedZombies)
             {
                 if (zombie != null)
@@ -61,12 +68,28 @@ public class ZombieSpawner : MonoBehaviour
             if (spawnedZombies.Count < maxZombiesAtOnce)
             {
                 Vector3 spawnPosition = GetRandomSpawnPosition();
-                GameObject zombie = Instantiate(zombiePrefab, spawnPosition, Quaternion.identity);
+                GameObject prefab = GetRandomZombiePrefab();
+                GameObject zombie = Instantiate(prefab, spawnPosition, Quaternion.identity);
                 spawnedZombies.Add(zombie);
             }
 
             yield return new WaitForSeconds(spawnInterval);
         }
+    }
+
+    private GameObject GetRandomZombiePrefab()
+    {
+        int roll = UnityEngine.Random.Range(0, 100);
+        int cumulative = 0;
+
+        foreach (var type in zombieTypes)
+        {
+            cumulative += type.spawnChance;
+            if (roll < cumulative)
+                return type.prefab;
+        }
+
+        return zombieTypes[0].prefab;
     }
 
     private Vector3 GetRandomSpawnPosition()
@@ -75,7 +98,6 @@ public class ZombieSpawner : MonoBehaviour
         float distance = UnityEngine.Random.Range(minSpawnDistance, maxSpawnDistance);
         Vector3 spawnPosition = player.position + new Vector3(randomDirection.x, 0, randomDirection.y) * distance;
 
-        // Optionally, adjust height using raycast (ground detection)
         if (Physics.Raycast(spawnPosition + Vector3.up * 50, Vector3.down, out RaycastHit hit, 100f))
         {
             spawnPosition.y = hit.point.y;

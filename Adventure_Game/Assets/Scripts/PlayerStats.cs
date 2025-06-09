@@ -20,35 +20,36 @@ public class PlayerStats : MonoBehaviour
     private float lastSprintTime;
 
     [Header("Sprinting")]
-    
-    public float walkSpeed = 5f;
-    public float sprintSpeed = 8f;
 
-    
+    public float walkSpeed = 5.0f;
+    public float sprintSpeed = 10.0f;
+
+    public CharacterController cC;
+
     private Vector3 moveDirection;
-    private bool isSprinting;
+    public bool isSprinting;
 
-    void Start()
+    public void Start()
     {
         currentHealth = maxHealth;
         currentStamina = maxStamina;
-        
+
     }
 
-    void Update()
+    public void Update()
     {
         HandleMovement();
         RegenerateHealth();
         RegenerateStamina();
     }
 
-    private void HandleMovement()
+    public void HandleMovement()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         Vector3 input = new Vector3(h, 0, v).normalized;
 
-        
+
 
         float speed = isSprinting ? sprintSpeed : walkSpeed;
 
@@ -60,7 +61,7 @@ public class PlayerStats : MonoBehaviour
         }
 
         moveDirection = input * speed;
-        
+
     }
 
     private void RegenerateHealth()
