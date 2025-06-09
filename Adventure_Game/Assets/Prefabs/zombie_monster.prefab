@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 8143558368156043763}
   - component: {fileID: 6337859195941062009}
   - component: {fileID: 1636067953383439958}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,8 +221,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.27, y: 22.36}
-  m_SizeDelta: {x: 150, y: 25}
+  m_AnchoredPosition: {x: -0.27, y: 24.04}
+  m_SizeDelta: {x: 100, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3946139001185326465
 Canvas:
@@ -436,7 +436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6991950695362512940}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +780,7 @@ GameObject:
   - component: {fileID: 2921145259102712503}
   - component: {fileID: 6275294391453762713}
   - component: {fileID: 2343519591168336779}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1241,7 +1241,7 @@ GameObject:
   m_Component:
   - component: {fileID: 937709986221004539}
   - component: {fileID: 1516328555048035994}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1256,8 +1256,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6241028068377062161}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.08}
-  m_LocalScale: {x: 0.002001, y: 0.002001, z: 0.002001}
+  m_LocalPosition: {x: 0, y: 0, z: 0.065}
+  m_LocalScale: {x: 0.009001, y: 0.009001, z: 0.009001}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6523137711316149587}
@@ -1266,8 +1266,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 74.454, y: -11.101}
-  m_SizeDelta: {x: 315.781, y: 39.473022}
+  m_AnchoredPosition: {x: 49.154, y: -7.16}
+  m_SizeDelta: {x: 100, y: 20}
   m_Pivot: {x: -0.4173771, y: 15.911787}
 --- !u!114 &1516328555048035994
 MonoBehaviour:
@@ -1491,7 +1491,7 @@ GameObject:
   - component: {fileID: 6523137711316149587}
   - component: {fileID: 8467250742374394194}
   - component: {fileID: 4589436021572667302}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

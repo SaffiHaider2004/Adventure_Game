@@ -15,21 +15,30 @@ public class ZombieHealth : MonoBehaviour
 
     void Start()
     {
+        if (healthBarCanvas != null)
+        {
+            Canvas canvas = healthBarCanvas.GetComponent<Canvas>();
+            if (canvas != null && canvas.renderMode == RenderMode.WorldSpace)
+            {
+                canvas.worldCamera = Camera.main;
+            }
+        }
+
         switch (type)
         {
             case ZombieType.Female:
-                maxHealth = 1;
-                break;
-            case ZombieType.Male:
                 maxHealth = 2;
                 break;
-            case ZombieType.Monster:
+            case ZombieType.Male:
                 maxHealth = 3;
+                break;
+            case ZombieType.Monster:
+                maxHealth = 4;
                 break;
         }
         currentHealth = maxHealth;
         UpdateHealthUI();
-        ShowHealthBar(false);
+        ShowHealthBar(true);
     }
 
     public void TakeDamage(int amount)
