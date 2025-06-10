@@ -3,7 +3,17 @@ guid: 9412572a1655ef048beca2f7cd5248f1
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kitty_001_MI
+    second: {fileID: 2100000, guid: 0cd4a7b0e5fe95e4584fb2c73a3c8d97, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: alb.001
+    second: {fileID: 2100000, guid: dfe4964cb39072d48ac7c023effaff03, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
