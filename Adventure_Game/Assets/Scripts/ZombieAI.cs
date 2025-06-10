@@ -35,10 +35,25 @@ public class ZombieAI : MonoBehaviour
             player = GameObject.FindWithTag("Player").transform;
         }
     }
-
+    public void SetPlayerReference(Transform target)
+    {
+        player = target;
+    }
     void Update()
     {
-        if (player == null) return;
+        // Find player if it's not set
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
+            else
+            {
+                return; // Skip until player is found
+            }
+        }
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
