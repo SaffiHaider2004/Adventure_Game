@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Name Scene.unity
     guid: 01198e389289cd34c8844d9219775bd1
+  - enabled: 1
+    path: Assets/TriForge Assets/Fantasy Worlds - DEMO Content/Scenes/URP/fwOF_FreeDemo_OldForest.unity
+    guid: f18074124bf8d7f48bacd53d86cabf2d
+  - enabled: 1
+    path: Assets/Scenes/End Scene.unity
+    guid: fdc3e71c9fc257b49bd7d72cc2f528a6
   m_configObjects: {}
