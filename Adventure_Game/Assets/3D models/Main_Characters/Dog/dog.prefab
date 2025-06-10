@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7256104428611843768
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_Name
+      value: dog
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1959087444622081015}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6553032187044468948}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7298656723848575235}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 18390683192771806}
+  m_SourcePrefab: {fileID: 100100000, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+--- !u!1 &7526558797943344105 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fd1bc61e0889229409aec7743bd70f07, type: 3}
+  m_PrefabInstance: {fileID: 7256104428611843768}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1959087444622081015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526558797943344105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3363c704a4aaddb45af771d84be4c7db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStats: {fileID: 0}
+  healthSlider: {fileID: 0}
+  staminaSlider: {fileID: 0}
+--- !u!143 &6553032187044468948
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526558797943344105}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7298656723848575235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526558797943344105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17043383397afaa46b466238eb202ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  healthRegenRate: 2
+  healthRegenDelay: 2
+  maxStamina: 100
+  staminaRegenRate: 5
+  staminaDrainRate: 20
+  staminaRegenDelay: 1
+  walkSpeed: 5
+  sprintSpeed: 10
+  cC: {fileID: 0}
+  isSprinting: 0
+--- !u!114 &18390683192771806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7526558797943344105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422b0ae045904fc47b48dec5ca931daa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joystick: {fileID: 0}
+  cameraTransform: {fileID: 0}
+  cC: {fileID: 0}
+  animator: {fileID: 0}
+  surfaceCheck: {fileID: 0}
+  surfaceDistance: 0.6
+  surfaceMask:
+    serializedVersion: 2
+    m_Bits: 0
+  gravity: -9.81
+  jumpForce: 2
+  playerStats: {fileID: 0}
+  turnSmoothTime: 0.1
+  punchRange: 2
+  zombieLayer:
+    serializedVersion: 2
+    m_Bits: 0

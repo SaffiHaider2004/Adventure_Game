@@ -28,5 +28,9 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.LoadScene(4);
     }
+    public void CharacterSelection()
+    {
+        SceneManager.LoadScene(5);
+    }
 
 }
