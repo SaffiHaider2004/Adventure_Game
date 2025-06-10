@@ -11,10 +11,13 @@ public class PlayerUI : MonoBehaviour
     public Slider healthSlider;
     public Slider staminaSlider;
 
-    void Start()
+    public void InitializeSliders()
     {
         if (playerStats == null)
-            playerStats = GetComponent<PlayerStats>();
+        {
+            Debug.LogError("PlayerStats not assigned to PlayerUI.");
+            return;
+        }
 
         healthSlider.maxValue = playerStats.GetMaxHealth();
         staminaSlider.maxValue = playerStats.GetMaxStamina();
@@ -22,8 +25,12 @@ public class PlayerUI : MonoBehaviour
 
     void Update()
     {
-        healthSlider.value = playerStats.GetHealth();
-        staminaSlider.value = playerStats.GetStamina();
+        if (playerStats != null)
+        {
+            healthSlider.value = playerStats.GetHealth();
+            staminaSlider.value = playerStats.GetStamina();
+        }
     }
 }
+
 

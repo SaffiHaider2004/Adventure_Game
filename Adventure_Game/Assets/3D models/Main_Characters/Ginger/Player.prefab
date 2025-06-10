@@ -379,7 +379,6 @@ GameObject:
   - component: {fileID: 673864731524193875}
   - component: {fileID: 2938129776237894306}
   - component: {fileID: 3010737597894934984}
-  - component: {fileID: 5766665900653051389}
   - component: {fileID: 694855244279345492}
   - component: {fileID: 3457381375688941980}
   m_Layer: 0
@@ -388,7 +387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4303305941160774667
 Transform:
   m_ObjectHideFlags: 0
@@ -504,21 +503,6 @@ MonoBehaviour:
   zombieLayer:
     serializedVersion: 2
     m_Bits: 128
---- !u!114 &5766665900653051389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2831295466360669086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3363c704a4aaddb45af771d84be4c7db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerStats: {fileID: 2938129776237894306}
-  healthSlider: {fileID: 0}
-  staminaSlider: {fileID: 0}
 --- !u!114 &694855244279345492
 MonoBehaviour:
   m_ObjectHideFlags: 0
