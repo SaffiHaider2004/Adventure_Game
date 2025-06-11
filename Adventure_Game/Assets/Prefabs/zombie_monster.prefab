@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 1251124787760045836}
   - component: {fileID: 7286470686569498524}
   - component: {fileID: 2122839893411290367}
-  - component: {fileID: 5844327045186415599}
+  - component: {fileID: 5046352462464406435}
   m_Layer: 7
   m_Name: zombie_monster
   m_TagString: Untagged
@@ -674,7 +674,7 @@ MonoBehaviour:
   type: 2
   healthBarCanvas: {fileID: 312269432873661964}
   healthSlider: {fileID: 1516328555048035994}
---- !u!136 &5844327045186415599
+--- !u!136 &5046352462464406435
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -693,10 +693,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.7383804
-  m_Height: 24.510197
+  m_Radius: 4.1755676
+  m_Height: 24.31364
   m_Direction: 1
-  m_Center: {x: -0.17700195, y: 11.7550955, z: 0.6429672}
+  m_Center: {x: -0.16860962, y: 11.65682, z: 0}
 --- !u!1 &3318097317453449919
 GameObject:
   m_ObjectHideFlags: 0
