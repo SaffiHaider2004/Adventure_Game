@@ -21,7 +21,6 @@ public class PlayerStats : MonoBehaviour
     private float lastSprintTime;
 
     [Header("Sprinting")]
-
     public float walkSpeed = 5.0f;
     public float sprintSpeed = 10.0f;
 
@@ -30,14 +29,15 @@ public class PlayerStats : MonoBehaviour
     private Vector3 moveDirection;
     public bool isSprinting;
 
-    public void Start()
+    private bool isDead = false;
+
+    void Start()
     {
         currentHealth = maxHealth;
         currentStamina = maxStamina;
-
     }
 
-    public void Update()
+    void Update()
     {
         HandleMovement();
         RegenerateHealth();
@@ -50,8 +50,6 @@ public class PlayerStats : MonoBehaviour
         float v = Input.GetAxis("Vertical");
         Vector3 input = new Vector3(h, 0, v).normalized;
 
-
-
         float speed = isSprinting ? sprintSpeed : walkSpeed;
 
         if (isSprinting)
@@ -62,7 +60,6 @@ public class PlayerStats : MonoBehaviour
         }
 
         moveDirection = input * speed;
-
     }
 
     private void RegenerateHealth()
@@ -85,6 +82,8 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        if (isDead) return;
+
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         lastDamagedTime = Time.time;
@@ -93,6 +92,50 @@ public class PlayerStats : MonoBehaviour
         {
             Die();
         }
+    }
+
+    private void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        Debug.Log("Player Died");
+
+        // Disable player control
+        PlayerJoystickMovement movement = GetComponent<PlayerJoystickMovement>();
+        if (movement != null)
+            movement.enabled = false;
+
+        // Trigger death animation
+        Animator animator = GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.SetTrigger("die");
+
+            float deathDuration = 3f; // Default fallback
+            RuntimeAnimatorController ac = animator.runtimeAnimatorController;
+
+            foreach (var clip in ac.animationClips)
+            {
+                if (clip.name.ToLower().Contains("die"))
+                {
+                    deathDuration = clip.length;
+                    break;
+                }
+            }
+
+            StartCoroutine(DelayedEndScene(deathDuration));
+        }
+        else
+        {
+            StartCoroutine(DelayedEndScene(3f));
+        }
+    }
+
+    private IEnumerator DelayedEndScene(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("End_Scene");
     }
 
     public void RestoreHealth(float percent)
@@ -113,12 +156,6 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    private void Die()
-    {
-        Debug.Log("Player Died");
-        SceneManager.LoadScene("End_Scene");
-        // Handle death (UI, restart, etc.)
-    }
     public void StartSprinting()
     {
         if (maxStamina > 0f)
