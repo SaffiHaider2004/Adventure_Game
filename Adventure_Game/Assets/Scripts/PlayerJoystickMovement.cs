@@ -29,7 +29,7 @@ public class PlayerJoystickMovement : MonoBehaviour
     private bool jumpRequested = false;
     private bool isJumping = false;
 
-    private bool punchRequested = false;
+    private bool punchInProgress = false;
 
     void Update()
     {
@@ -37,7 +37,6 @@ public class PlayerJoystickMovement : MonoBehaviour
         ApplyGravity();
         MovePlayer();
         HandleJump();
-        HandlePunch();
     }
 
     void GroundCheck()
@@ -77,11 +76,12 @@ public class PlayerJoystickMovement : MonoBehaviour
                 ? playerStats.sprintSpeed
                 : playerStats.walkSpeed;
 
-            // Move player only if not mid-punch (optional: you can disable this if needed)
-            cC.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
+            // Move only if not punching
+            if (!punchInProgress)
+                cC.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
 
-            animator.SetBool("walk", !playerStats.isSprinting);
-            animator.SetBool("running", playerStats.isSprinting);
+            animator.SetBool("walk", !playerStats.isSprinting && !punchInProgress);
+            animator.SetBool("running", playerStats.isSprinting && !punchInProgress);
         }
         else
         {
@@ -109,33 +109,54 @@ public class PlayerJoystickMovement : MonoBehaviour
 
     public void PunchRequest()
     {
-        
-        punchRequested = true;
+        if (!punchInProgress)
+        {
+            StartCoroutine(PunchCoroutine());
+        }
     }
 
     public float punchRange = 2f;
     public LayerMask zombieLayer;
-    public void HandlePunch()
+
+    private IEnumerator PunchCoroutine()
     {
-        if (punchRequested)
+        punchInProgress = true;
+
+        animator.SetTrigger("punch");
+
+        // Get punch animation duration
+        float punchDuration = 0.5f; // fallback
+        RuntimeAnimatorController ac = animator.runtimeAnimatorController;
+        foreach (var clip in ac.animationClips)
         {
-            animator.SetTrigger("punch");
-
-            Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward, punchRange, zombieLayer);
-
-            foreach (var hit in hits)
+            if (clip.name.ToLower().Contains("punch"))
             {
-                ZombieHealth zombie = hit.GetComponent<ZombieHealth>();
-                if (zombie != null)
-                {
-                    zombie.TakeDamage(1);
-                    zombie.ShowHealthBar(true);
-                }
+                punchDuration = clip.length;
+                break;
             }
         }
 
-        punchRequested = false;
+        // Wait until mid-punch for impact
+        yield return new WaitForSeconds(punchDuration * 0.4f); // adjust if needed
+
+        // Apply damage
+        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward, punchRange, zombieLayer);
+        foreach (var hit in hits)
+        {
+            ZombieHealth zombie = hit.GetComponent<ZombieHealth>();
+            if (zombie != null)
+            {
+                zombie.TakeDamage(1);
+                zombie.ShowHealthBar(true);
+            }
+        }
+
+        // Wait for rest of the animation
+        yield return new WaitForSeconds(punchDuration * 0.6f);
+
+        punchInProgress = false;
     }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
