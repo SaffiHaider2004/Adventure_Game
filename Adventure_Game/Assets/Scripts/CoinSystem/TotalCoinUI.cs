@@ -4,25 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 public class TotalCoinUI : MonoBehaviour
 {
-    public static TotalCoinUI Instance;
     public Text totalCoinText;
-
-    void Awake()
-    {
-        Instance = this;
-    }
 
     void Start()
     {
-        RefreshTotalCoins();
+        UpdateUI();
     }
 
-    public void RefreshTotalCoins()
+    void OnEnable()
+    {
+        UpdateUI(); // this gets called again when returning to the scene
+    }
+
+    void UpdateUI()
     {
         int total = CoinManager.GetTotalCoins();
         if (totalCoinText != null)
             totalCoinText.text = "Total Coins: " + total;
-
-        Debug.Log("🪙 Total Coin UI Updated: " + total);
     }
 }
