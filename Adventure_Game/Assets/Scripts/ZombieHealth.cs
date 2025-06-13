@@ -16,6 +16,9 @@ public class ZombieHealth : MonoBehaviour
     
     private Animator animator;
     private bool isDead = false;
+    public GameObject coinPrefab;
+    private int coinValue = 1;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -33,12 +36,15 @@ public class ZombieHealth : MonoBehaviour
         {
             case ZombieType.Female:
                 maxHealth = 2;
+                coinValue = 2;
                 break;
             case ZombieType.Male:
                 maxHealth = 3;
+                coinValue = 5;
                 break;
             case ZombieType.Monster:
                 maxHealth = 4;
+                coinValue = 10;
                 break;
         }
         currentHealth = maxHealth;
@@ -89,6 +95,15 @@ public class ZombieHealth : MonoBehaviour
         {
             agent.ResetPath();
             agent.isStopped = true; // ✅ freezes movement safely
+        }
+
+        // Instantiate coin pickup and assign value
+        if (coinPrefab != null)
+        {
+            GameObject coin = Instantiate(coinPrefab, transform.position + Vector3.up * 1f, Quaternion.identity);
+            CoinPickup pickup = coin.GetComponent<CoinPickup>();
+            if (pickup != null)
+                pickup.coinAmount = coinValue;
         }
 
         animator.SetTrigger("die");

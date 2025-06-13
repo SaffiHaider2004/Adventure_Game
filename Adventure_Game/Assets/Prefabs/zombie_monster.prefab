@@ -589,7 +589,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 518.4715, y: 4.399328, z: 196.159}
-  m_LocalScale: {x: 0.09000001, y: 0.09000001, z: 0.09000001}
+  m_LocalScale: {x: 0.055, y: 0.055, z: 0.055}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2735451554301108183}
@@ -674,6 +674,7 @@ MonoBehaviour:
   type: 2
   healthBarCanvas: {fileID: 312269432873661964}
   healthSlider: {fileID: 1516328555048035994}
+  coinPrefab: {fileID: 3647238568000954211, guid: 45aef9ad599f71448ab75fdf36547843, type: 3}
 --- !u!136 &5046352462464406435
 CapsuleCollider:
   m_ObjectHideFlags: 0

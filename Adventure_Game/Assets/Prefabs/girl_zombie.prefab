@@ -748,6 +748,7 @@ MonoBehaviour:
   type: 0
   healthBarCanvas: {fileID: 8312685870348860210}
   healthSlider: {fileID: 3613340335601312758}
+  coinPrefab: {fileID: 3647238568000954211, guid: 45aef9ad599f71448ab75fdf36547843, type: 3}
 --- !u!1 &4594000934405621779
 GameObject:
   m_ObjectHideFlags: 0

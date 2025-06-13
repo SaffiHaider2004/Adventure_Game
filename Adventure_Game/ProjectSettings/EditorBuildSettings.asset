@@ -22,10 +22,10 @@ EditorBuildSettings:
     guid: 598777387c5505646bbe75b3445e21dc
   - enabled: 1
     path: Assets/TriForge Assets/Fantasy Worlds - DEMO Content/Scenes/Built-in Renderer/Scene2.unity
-    guid: ca19169b51f55af4b8b22ee30d764d12
+    guid: c91c33cd206d30c47bd45e34e1942dbd
   - enabled: 1
     path: Assets/TriForge Assets/Fantasy Worlds - DEMO Content/Scenes/Built-in Renderer/Scene3.unity
-    guid: 69e2687b33197e14383c86f0bad1b0fe
+    guid: 4784de7a36986cd449da84a529b94bec
   - enabled: 1
     path: Assets/Scenes/End_Scene.unity
     guid: fdc3e71c9fc257b49bd7d72cc2f528a6

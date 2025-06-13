@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -101,6 +101,7 @@ public class PlayerStats : MonoBehaviour
 
         Debug.Log("Player Died");
 
+        CoinManager.Instance?.SaveCoins(); // ✅ Save coins here
         // Disable player control
         PlayerJoystickMovement movement = GetComponent<PlayerJoystickMovement>();
         if (movement != null)

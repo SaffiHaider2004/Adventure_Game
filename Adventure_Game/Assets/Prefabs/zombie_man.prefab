@@ -152,6 +152,7 @@ MonoBehaviour:
   type: 1
   healthBarCanvas: {fileID: 653838039624935264}
   healthSlider: {fileID: 3094063151427419182}
+  coinPrefab: {fileID: 3647238568000954211, guid: 45aef9ad599f71448ab75fdf36547843, type: 3}
 --- !u!136 &8734748422876113314
 CapsuleCollider:
   m_ObjectHideFlags: 0
