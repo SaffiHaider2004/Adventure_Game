@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5221323434719733167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4046430764934746489}
+  - component: {fileID: 7369747866227262169}
+  - component: {fileID: 4931547885607112514}
+  - component: {fileID: 4085278527766979432}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4046430764934746489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5221323434719733167}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4, y: 57.4, z: 577.0666}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7369747866227262169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5221323434719733167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d54b30e1dbfabfe40baec55f8fcec414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeController: {fileID: 0}
+  zombieTypes:
+  - prefab: {fileID: 4357552605121178128, guid: 52f18706d8a56124a9a4f1d71526c71c, type: 3}
+    spawnChance: 40
+  - prefab: {fileID: 526111579608310774, guid: c8c2bd54476f1884fa89777fe3e52f2c, type: 3}
+    spawnChance: 50
+  - prefab: {fileID: 2694217048690756122, guid: 6ce21aaf9f7ac0143b8f04a495362865, type: 3}
+    spawnChance: 20
+  spawnInterval: 10
+  maxZombiesAtOnce: 10
+  minSpawnDistance: 15
+  maxSpawnDistance: 30
+  player: {fileID: 0}
+--- !u!114 &4931547885607112514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5221323434719733167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cf18620e8d6e0b43b6ed9064c4bd9cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthEatablePrefab: {fileID: 4490122291129701192, guid: c4271c86aab0d4a478eac56b2e054148, type: 3}
+  staminaEatablePrefab: {fileID: 434871130225101383, guid: 2dec11137b6548444bbb72073e08f4fb, type: 3}
+  spawnRadius: 10
+  spawnInterval: 20
+--- !u!114 &4085278527766979432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5221323434719733167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f3942ffff2aff84db969a91198fe70b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: {fileID: 0}
+  templeDoor: {fileID: 0}
+  worldObjects: {fileID: 0}
+  caveLevel: {fileID: 0}
+  caveSpawnPoint: {fileID: 0}
+  player: {fileID: 0}
+  caveEntered: 0
