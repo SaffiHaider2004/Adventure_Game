@@ -10,6 +10,7 @@ public class CollectibleItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            MissionManager.instance.CollectApple();
             InventorySystem.Instance.AddItem(itemData);
             Destroy(gameObject);
         }
