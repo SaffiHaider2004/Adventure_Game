@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Apple
   - Temple Door
+  - Meat
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Terrain
   - Water
   - UI
   - Ground layer
