@@ -4,6 +4,8 @@ using TMPro;
 public class MissionManager : MonoBehaviour
 {
     public static MissionManager instance;
+    public TMP_Text missionText; // or TMP_Text if using TMP
+
 
     private int appleCount = 0;
     public int targetAppleCount = 5;
@@ -21,6 +23,12 @@ public class MissionManager : MonoBehaviour
     void Start()
     {
         UpdateUI();
+        
+        
+            appleCount = 0;
+            UpdateMissionText("Collect 5 apples");
+        
+
     }
 
     public void CollectApple()
@@ -30,6 +38,7 @@ public class MissionManager : MonoBehaviour
 
         if (appleCount >= targetAppleCount)
         {
+            UpdateMissionText("Find the temple door");
             MissionComplete();
         }
     }
@@ -51,4 +60,12 @@ public class MissionManager : MonoBehaviour
         Debug.Log("Mission Complete!");
         // Add your next step logic here
     }
+    void UpdateMissionText(string message)
+    {
+        if (missionText != null)
+        {
+            missionText.text = message;
+        }
+    }
+
 }
