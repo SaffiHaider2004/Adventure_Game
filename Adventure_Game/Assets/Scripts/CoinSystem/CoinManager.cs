@@ -9,6 +9,8 @@ public class CoinManager : MonoBehaviour
     public int sessionCoins = 0;
     private string currentCharacter;
 
+    // FOR ZERO COINS
+    ////
     void Awake()
     {
         if (Instance == null)
@@ -21,6 +23,11 @@ public class CoinManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    /// 
+    /// FOR TESTING 2500 COINS
+    ///
+
     //void Awake()
     //{
     //    if (Instance == null)
