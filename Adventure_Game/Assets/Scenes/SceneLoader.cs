@@ -29,13 +29,13 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene2()
     {
-        CoinManager.Instance?.SetCurrentCharacter("Eevee");
+        CoinManager.Instance?.SetCurrentCharacter("Sture");
         SceneManager.LoadScene("Scene2"); // Replace with your actual scene name
     }
 
     public void LoadScene3()
     {
-        CoinManager.Instance?.SetCurrentCharacter("Sture");
+        CoinManager.Instance?.SetCurrentCharacter("Eevee");
         SceneManager.LoadScene("Scene3"); // Replace with your actual scene name
     }
     public void ResetAllData()
