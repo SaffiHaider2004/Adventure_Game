@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MissionManager : MonoBehaviour
 {
@@ -33,17 +34,17 @@ public class MissionManager : MonoBehaviour
             {
                 case GameStateManager.MissionPhase.CollectApples:
                     UpdateMissionText("Collect 5 apples");
-                    UpdateUI(); // show apple counter
+                    UpdateUI();
                     break;
 
                 case GameStateManager.MissionPhase.EscapeCave:
                     UpdateMissionText("Escape the cave");
-                    appleCountText.text = ""; // clear UI
+                    if (appleCountText != null) appleCountText.text = "";
                     break;
 
                 case GameStateManager.MissionPhase.KillZombies:
                     UpdateMissionText("Kill 3 zombies");
-                    appleCountText.text = $"Zombies: {zombiesKilled} / {targetZombieCount}";
+                    UpdateUI();
                     break;
             }
         }
@@ -65,24 +66,6 @@ public class MissionManager : MonoBehaviour
         }
     }
 
-    void UpdateUI()
-    {
-        if (appleCountText == null)
-        {
-            Debug.LogWarning("⚠️ AppleCountText is not assigned in MissionManager.");
-            return;
-        }
-
-        if (GameStateManager.instance.currentPhase == GameStateManager.MissionPhase.CollectApples)
-        {
-            appleCountText.text = $"Apples: {appleCount} / {targetAppleCount}";
-        }
-        else if (GameStateManager.instance.currentPhase == GameStateManager.MissionPhase.KillZombies)
-        {
-            appleCountText.text = $"Zombies: {zombiesKilled} / {targetZombieCount}";
-        }
-    }
-
     public bool ApplesCollected()
     {
         return appleCount >= targetAppleCount;
@@ -99,17 +82,37 @@ public class MissionManager : MonoBehaviour
 
         if (zombiesKilled >= targetZombieCount)
         {
-            Debug.Log("Zombie mission complete!");
+            Debug.Log("✅ Zombie mission complete!");
             UpdateMissionText("Mission Complete!");
-            // Add logic for next steps (victory screen, cutscene, etc.)
+
+            // Restart loop after short delay
+            Invoke("RestartMissionLoop", 2f);
         }
     }
 
     // ---------------------- UTIL ----------------------
+    void UpdateUI()
+    {
+        if (appleCountText == null)
+        {
+            Debug.LogWarning("⚠️ AppleCountText is not assigned.");
+            return;
+        }
+
+        if (GameStateManager.instance.currentPhase == GameStateManager.MissionPhase.CollectApples)
+        {
+            appleCountText.text = $"Apples: {appleCount} / {targetAppleCount}";
+        }
+        else if (GameStateManager.instance.currentPhase == GameStateManager.MissionPhase.KillZombies)
+        {
+            appleCountText.text = $"Zombies: {zombiesKilled} / {targetZombieCount}";
+        }
+    }
+
     void MissionComplete()
     {
         Debug.Log("Mission Complete!");
-        // You can add door opening, triggers, or UI win here
+        // You can add effects or sounds here if needed
     }
 
     void UpdateMissionText(string message)
@@ -120,4 +123,37 @@ public class MissionManager : MonoBehaviour
         }
     }
 
+    // ---------------------- LOOP SYSTEM ----------------------
+    public void RestartMissionLoop()
+    {
+        Debug.Log("🔁 Restarting mission loop...");
+
+        // Reset mission state
+        appleCount = 0;
+        zombiesKilled = 0;
+
+        GameStateManager.instance.currentPhase = GameStateManager.MissionPhase.CollectApples;
+
+        // Load the correct forest scene again
+        string currentScene = SceneManager.GetActiveScene().name;
+        string returnScene = "";
+
+        switch (currentScene)
+        {
+            case "Demo_Scene":
+                returnScene = "Scene1";
+                break;
+            case "cat_cave":
+                returnScene = "Scene2";
+                break;
+            case "Dog_Cave":
+                returnScene = "Scene3";
+                break;
+            default:
+                Debug.LogWarning("Unknown cave scene: " + currentScene);
+                return;
+        }
+
+        SceneManager.LoadScene(returnScene);
+    }
 }
