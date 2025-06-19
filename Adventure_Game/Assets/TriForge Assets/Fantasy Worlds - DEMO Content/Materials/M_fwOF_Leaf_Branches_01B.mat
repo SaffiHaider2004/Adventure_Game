@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _DISTANCEBASEDMASKCLIP_ON
+  - _GLOSSYREFLECTIONS_OFF
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -105,7 +106,7 @@ Material:
     - _Float4: 0.297
     - _GlossMapScale: 1
     - _Glossiness: 0.211
-    - _GlossyReflections: 1
+    - _GlossyReflections: 0
     - _LeafFlutterStrength: 0.025
     - _MainBendMaskStrength: 0.15
     - _MainWindScale: 0.1
@@ -118,7 +119,7 @@ Material:
     - _Parallax: 0.02
     - _ParentWindMapScale: 2
     - _ParentWindStrength: 0.5
-    - _Smoothness: 0.122
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
