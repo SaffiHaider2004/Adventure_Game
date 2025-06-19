@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
@@ -9,14 +10,24 @@ public class CoinManager : MonoBehaviour
     public int sessionCoins = 0;
     private string currentCharacter;
 
-    // FOR ZERO COINS
-    ////
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // Optional starter coins logic (disabled by default)
+            // Uncomment to enable test coins once
+            /*
+            if (!PlayerPrefs.HasKey("StarterCoinsGiven"))
+            {
+                PlayerPrefs.SetInt("Coins_Total", 2500);
+                PlayerPrefs.SetInt("StarterCoinsGiven", 1);
+                PlayerPrefs.Save();
+                Debug.Log("🪙 Starter coins granted!");
+            }
+            */
         }
         else
         {
@@ -24,57 +35,41 @@ public class CoinManager : MonoBehaviour
         }
     }
 
-    /// 
-    /// FOR TESTING 2500 COINS
-    ///
-
-    //void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //        DontDestroyOnLoad(gameObject);
-
-    //        // 🪙 GIVE STARTER COINS ONLY ONCE
-    //        if (!PlayerPrefs.HasKey("StarterCoinsGiven"))
-    //        {
-    //            PlayerPrefs.SetInt("Coins_Total", 2500); // 🧪 Set your desired starting amount
-    //            PlayerPrefs.SetInt("StarterCoinsGiven", 1); // 🔒 Prevent repeating
-    //            PlayerPrefs.Save();
-    //            Debug.Log("🪙 Starter coins granted!");
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Destroy(gameObject);
-    //    }
-    //}
-
-
-    // Set from SceneLoader.cs
+    // --------------------------------------------
+    // 🧍 CHARACTER SETUP
+    // --------------------------------------------
     public void SetCurrentCharacter(string character)
     {
         currentCharacter = character;
+        PlayerPrefs.SetString("SelectedCharacter", character);
+        PlayerPrefs.Save();
     }
 
     public string GetCurrentCharacter()
     {
+        if (string.IsNullOrEmpty(currentCharacter))
+        {
+            currentCharacter = PlayerPrefs.GetString("SelectedCharacter", "Gingerbread"); // Default
+        }
         return currentCharacter;
     }
 
-    // 🪙 Called when coin is picked up
+    // --------------------------------------------
+    // 🪙 COIN SYSTEM
+    // --------------------------------------------
+
     public void AddCoin(int amount)
     {
         sessionCoins += amount;
         UIManager.Instance?.UpdateCoinUI(sessionCoins);
     }
 
-    // 💾 Called on death or scene exit
     public void SaveCoins()
     {
-        if (string.IsNullOrEmpty(currentCharacter)) return;
+        string character = GetCurrentCharacter();
+        if (string.IsNullOrEmpty(character)) return;
 
-        string charKey = $"Coins_{currentCharacter}";
+        string charKey = $"Coins_{character}";
         int currentCharTotal = PlayerPrefs.GetInt(charKey, 0);
         PlayerPrefs.SetInt(charKey, currentCharTotal + sessionCoins);
 
@@ -85,17 +80,18 @@ public class CoinManager : MonoBehaviour
         sessionCoins = 0;
     }
 
-    // 💰 Shop system coin access
     public static int GetTotalCoins() => PlayerPrefs.GetInt("Coins_Total", 0);
     public static int GetCharacterCoins(string character) => PlayerPrefs.GetInt($"Coins_{character}", 0);
 
-    // ✅ Check if house is owned (used by HouseSpawner/Shop)
+    // --------------------------------------------
+    // 🏠 HOUSE SYSTEM
+    // --------------------------------------------
+
     public static bool IsHouseOwned(string houseKey)
     {
         return PlayerPrefs.GetInt(houseKey, 0) == 1;
     }
 
-    // 💸 Deduct coins when buying house
     public static bool TrySpendCoins(int amount)
     {
         int totalCoins = GetTotalCoins();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+
 public class ZombieHealth : MonoBehaviour
 {
     public enum ZombieType { Female, Male, Monster }
@@ -13,7 +14,7 @@ public class ZombieHealth : MonoBehaviour
 
     public GameObject healthBarCanvas;
     public Slider healthSlider;
-    
+
     private Animator animator;
     private bool isDead = false;
     public GameObject coinPrefab;
@@ -47,6 +48,7 @@ public class ZombieHealth : MonoBehaviour
                 coinValue = 10;
                 break;
         }
+
         currentHealth = maxHealth;
         UpdateHealthUI();
         ShowHealthBar(true);
@@ -55,9 +57,7 @@ public class ZombieHealth : MonoBehaviour
     public void TakeDamage(int amount)
     {
         if (isDead)
-        { 
-            return; 
-        }
+            return;
 
         currentHealth -= amount;
         UpdateHealthUI();
@@ -82,22 +82,25 @@ public class ZombieHealth : MonoBehaviour
     private void Die()
     {
         if (isDead) return;
-
         isDead = true;
 
-        // Disable AI movement and stop navigation
+        // Notify MissionManager
+        MissionManager.instance?.OnZombieKilled();
+
+        // Disable AI movement
         ZombieAI ai = GetComponent<ZombieAI>();
         if (ai != null)
             ai.enabled = false;
 
+        // Stop navigation
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
             agent.ResetPath();
-            agent.isStopped = true; // ✅ freezes movement safely
+            agent.isStopped = true;
         }
 
-        // Instantiate coin pickup and assign value
+        // Drop coins
         if (coinPrefab != null)
         {
             GameObject coin = Instantiate(coinPrefab, transform.position + Vector3.up * 1f, Quaternion.identity);
@@ -106,8 +109,10 @@ public class ZombieHealth : MonoBehaviour
                 pickup.coinAmount = coinValue;
         }
 
+        // Play death animation
         animator.SetTrigger("die");
 
-        Destroy(gameObject, 3f); // gives time for death animation
+        // Destroy after animation delay
+        Destroy(gameObject, 3f);
     }
 }

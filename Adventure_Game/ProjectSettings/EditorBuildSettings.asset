@@ -29,4 +29,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/End_Scene.unity
     guid: fdc3e71c9fc257b49bd7d72cc2f528a6
+  - enabled: 1
+    path: Assets/Decrepit Dungeon LITE/EXAMPLE/Demo_Scene.unity
+    guid: 14a2c64dbd956d346b9f674d144cc297
+  - enabled: 1
+    path: Assets/Decrepit Dungeon LITE/EXAMPLE/Dog_Cave.unity
+    guid: ba4c5ff16bf0db04997bf99a983ec3c9
+  - enabled: 1
+    path: Assets/Decrepit Dungeon LITE/EXAMPLE/cat_cave.unity
+    guid: 9735ea28dd8add944a1b7bfe80e76514
   m_configObjects: {}
