@@ -108,7 +108,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 0
     - _HFRotationMapInfluence: 0.201
-    - _MainBendingStrength: 0.95
+    - _MainBendingStrength: 0
     - _Metallic: 0
     - _Mode: 0
     - _NormalScale: 0.6
@@ -130,8 +130,8 @@ Material:
     - _Translucency: 4.5
     - _UVSec: 0
     - _WindRootMaskStrength: 0.687
-    - _WindRotationMapSpeed: 0.728
-    - _WindStrength: 0.199
+    - _WindRotationMapSpeed: 0
+    - _WindStrength: 0
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:

@@ -117,8 +117,8 @@ Material:
     - _NormalScale: 0.15
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ParentWindMapScale: 2
-    - _ParentWindStrength: 0.5
+    - _ParentWindMapScale: 0
+    - _ParentWindStrength: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -136,7 +136,7 @@ Material:
     - _UndercolorValue: -0.0104
     - _VertexAOIntensity: 1
     - _WindAmount: 0
-    - _WindOverallStrength: 0.5
+    - _WindOverallStrength: 0
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:

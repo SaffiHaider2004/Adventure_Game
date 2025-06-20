@@ -8,8 +8,8 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: 9735ea28dd8add944a1b7bfe80e76514
+  m_OcclusionCullingData: {fileID: 36300000, guid: db9e21b3eb97e5946aefd04944415914, type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -120314,6 +120314,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 510117259821198785, guid: e8c99cd1600a4f24c973b23fa7f21044, type: 3}
+      propertyPath: far clip plane
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 2473505248534544523, guid: e8c99cd1600a4f24c973b23fa7f21044, type: 3}
       propertyPath: healthSlider
       value: 
@@ -131490,7 +131494,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f33de6e45712248b6120e3a2cee51a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  returnSceneName: Scene1
 --- !u!65 &2117800938
 BoxCollider:
   m_ObjectHideFlags: 0

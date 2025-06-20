@@ -8,8 +8,8 @@ OcclusionCullingSettings:
     smallestOccluder: 5
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: ba4c5ff16bf0db04997bf99a983ec3c9
+  m_OcclusionCullingData: {fileID: 36300000, guid: 705501e010fc85d4db677e0d783cfc65, type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -102479,6 +102479,10 @@ PrefabInstance:
     - target: {fileID: 4123464217012299173, guid: 62f5a026a02552a40ba5a57e0fcb812e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4831553433559023198, guid: 62f5a026a02552a40ba5a57e0fcb812e, type: 3}
+      propertyPath: far clip plane
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5651249120174249075, guid: 62f5a026a02552a40ba5a57e0fcb812e, type: 3}
       propertyPath: joystick

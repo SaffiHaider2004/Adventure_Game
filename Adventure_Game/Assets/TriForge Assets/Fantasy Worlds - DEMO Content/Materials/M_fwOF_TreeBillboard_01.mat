@@ -100,7 +100,7 @@ Material:
     - _LeafFlutterStrength: 0.15
     - _MainBendMaskStrength: 0
     - _MainWindScale: 1
-    - _MainWindStrength: 0.54
+    - _MainWindStrength: 0
     - _MaskClip: 0.541
     - _Metallic: 0
     - _Mode: 0

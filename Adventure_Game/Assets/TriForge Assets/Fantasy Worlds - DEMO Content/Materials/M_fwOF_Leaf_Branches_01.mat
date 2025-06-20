@@ -96,7 +96,7 @@ Material:
     - _BendingMaskStrength1: 2
     - _BumpScale: 1
     - _ChildWindMapScale: 2
-    - _ChildWindStrength: 0.3
+    - _ChildWindStrength: 0
     - _ColorSaturation: 0.8
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -108,18 +108,18 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.211
     - _GlossyReflections: 0
-    - _LeafFlutterStrength: 0.15
+    - _LeafFlutterStrength: 0
     - _MainBendMaskStrength: 0.5
     - _MainWindScale: 1
-    - _MainWindStrength: 0.5
+    - _MainWindStrength: 0
     - _MaskClip: 0.66
     - _Metallic: 0
     - _Mode: 0
     - _NormalScale: 0.25
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _ParentWindMapScale: 1
-    - _ParentWindStrength: 0.5
+    - _ParentWindMapScale: 0
+    - _ParentWindStrength: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -138,7 +138,7 @@ Material:
     - _UndercolorValue: -0.0036
     - _VertexAOIntensity: 1
     - _WindAmount: 0
-    - _WindOverallStrength: 1
+    - _WindOverallStrength: 0
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:

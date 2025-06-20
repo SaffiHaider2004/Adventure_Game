@@ -102,7 +102,7 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _VertexAOIntensity: 1
-    - _WindOverallStrength: 1
+    - _WindOverallStrength: 0
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:

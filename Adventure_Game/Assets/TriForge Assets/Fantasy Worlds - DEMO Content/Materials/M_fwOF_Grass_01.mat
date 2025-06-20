@@ -118,7 +118,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 0
     - _HFRotationMapInfluence: 0
-    - _MainBendingStrength: 1.28
+    - _MainBendingStrength: 0
     - _Metallic: 0
     - _Mode: 0
     - _NormalScale: 0.1
@@ -127,7 +127,7 @@ Material:
     - _RootMaskStrength: -0.47
     - _Rotation: 79.7
     - _RotationMapInfluence: 0.6
-    - _SecondaryBendingStrength: 0.72
+    - _SecondaryBendingStrength: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _Specular: 0.007
@@ -141,9 +141,9 @@ Material:
     - _TransShadow: 1
     - _Translucency: 3
     - _UVSec: 0
-    - _WindRootMaskStrength: 0.2
-    - _WindRotationMapSpeed: 0.3
-    - _WindStrength: 0.4
+    - _WindRootMaskStrength: 0
+    - _WindRotationMapSpeed: 0
+    - _WindStrength: 0
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
