@@ -3259,7 +3259,6 @@ MonoBehaviour:
   caveLevel: {fileID: 0}
   caveSpawnPoint: {fileID: 0}
   player: {fileID: 3723548168480890787}
-  caveEntered: 0
 --- !u!4 &4092946236917486364
 Transform:
   m_ObjectHideFlags: 0
@@ -3861,6 +3860,10 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 4840736713681305641}
+    - target: {fileID: 5651249120174249075, guid: 62f5a026a02552a40ba5a57e0fcb812e, type: 3}
+      propertyPath: turnSmoothTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6989267473440095532, guid: 62f5a026a02552a40ba5a57e0fcb812e, type: 3}
       propertyPath: m_Name
       value: 'Eevee '

@@ -2621,6 +2621,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 2252574356277596192}
+    - target: {fileID: 5597112703162907991, guid: 65852b73b105b0e498424109e8a9267c, type: 3}
+      propertyPath: handleRange
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6215216276115460739, guid: 65852b73b105b0e498424109e8a9267c, type: 3}
       propertyPath: playerStats
       value: 
@@ -3930,7 +3934,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpForce: 2
   playerStats: {fileID: 8452245897195329240}
-  turnSmoothTime: 0.1
+  turnSmoothTime: 0.2
   punchRange: 2
   zombieLayer:
     serializedVersion: 2
