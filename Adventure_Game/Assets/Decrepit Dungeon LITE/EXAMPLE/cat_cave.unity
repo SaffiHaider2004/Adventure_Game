@@ -120751,6 +120751,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 368925758}
     - target: {fileID: 8041638267559473384, guid: e8c99cd1600a4f24c973b23fa7f21044, type: 3}
+      propertyPath: turnSmoothTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8041638267559473384, guid: e8c99cd1600a4f24c973b23fa7f21044, type: 3}
       propertyPath: surfaceMask.m_Bits
       value: 328
       objectReference: {fileID: 0}

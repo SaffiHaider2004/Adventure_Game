@@ -47492,6 +47492,10 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 368925758}
+    - target: {fileID: 8447076210853426203, guid: 0c6ad24931b43b24faab7149074ac4b0, type: 3}
+      propertyPath: turnSmoothTime
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

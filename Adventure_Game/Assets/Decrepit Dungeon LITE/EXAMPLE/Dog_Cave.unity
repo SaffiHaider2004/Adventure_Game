@@ -102638,6 +102638,10 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 368925758}
+    - target: {fileID: 5651249120174249075, guid: 62f5a026a02552a40ba5a57e0fcb812e, type: 3}
+      propertyPath: turnSmoothTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6989267473440095532, guid: 62f5a026a02552a40ba5a57e0fcb812e, type: 3}
       propertyPath: m_Name
       value: 'Eevee '
