@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -15,48 +14,58 @@ public class DayNightMusicManager : MonoBehaviour
     private bool isCurrentlyNight;
     private Coroutine fadeCoroutine;
 
+    private TimeSpan nightStart;
+    private TimeSpan nightEnd;
+
     void Start()
     {
-        if  (CalmMusicManager.Instance != null) 
-        { 
-                Destroy(CalmMusicManager.Instance.gameObject);
+        if (CalmMusicManager.Instance != null)
+        {
+            Destroy(CalmMusicManager.Instance.gameObject);
         }
 
-
         audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            audioSource = gameObject.AddComponent<AudioSource>();
-
         audioSource.loop = true;
         audioSource.playOnAwake = false;
         audioSource.volume = 1f;
 
-        // Start coroutine to delay music setup until TimeController is ready
+        // Pre-cache night start time
+        nightStart = TimeSpan.FromHours(19);
+
         StartCoroutine(InitializeMusic());
     }
+
     private IEnumerator InitializeMusic()
     {
-        // Wait one frame to ensure TimeController has initialized
-        yield return null;
+        yield return null; // Wait one frame
 
+        if (timeController == null)
+        {
+            Debug.LogWarning("TimeController is missing.");
+            yield break;
+        }
+
+        nightEnd = TimeSpan.FromHours(timeController.sunriseHour);
         UpdateIsNightFlag();
 
         audioSource.clip = isCurrentlyNight ? nightMusic : dayMusic;
         audioSource.Play();
     }
+
     void Update()
     {
         if (timeController == null) return;
 
         TimeSpan currentTime = timeController.GetCurrentTime().TimeOfDay;
-        TimeSpan nightStart = TimeSpan.FromHours(19); // 7 PM
-        TimeSpan nightEnd = TimeSpan.FromHours(timeController.sunriseHour);
         bool currentlyNight = currentTime >= nightStart || currentTime < nightEnd;
 
         if (currentlyNight != isCurrentlyNight)
         {
             isCurrentlyNight = currentlyNight;
-            if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+
+            if (fadeCoroutine != null)
+                StopCoroutine(fadeCoroutine);
+
             fadeCoroutine = StartCoroutine(FadeToNewClip(isCurrentlyNight ? nightMusic : dayMusic));
         }
     }
@@ -64,24 +73,23 @@ public class DayNightMusicManager : MonoBehaviour
     private void UpdateIsNightFlag()
     {
         TimeSpan currentTime = timeController.GetCurrentTime().TimeOfDay;
-        TimeSpan nightStart = TimeSpan.FromHours(19); // 7 PM
-        TimeSpan nightEnd = TimeSpan.FromHours(timeController.sunriseHour);
+        nightEnd = TimeSpan.FromHours(timeController.sunriseHour);
         isCurrentlyNight = currentTime >= nightStart || currentTime < nightEnd;
     }
 
     private IEnumerator FadeToNewClip(AudioClip newClip)
     {
-        // Fade out
         float startVolume = audioSource.volume;
+
+        // Fade out
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
             audioSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeDuration);
             yield return null;
         }
+
         audioSource.volume = 0f;
         audioSource.Stop();
-
-        // Change music
         audioSource.clip = newClip;
         audioSource.Play();
 
@@ -91,6 +99,7 @@ public class DayNightMusicManager : MonoBehaviour
             audioSource.volume = Mathf.Lerp(0f, 1f, t / fadeDuration);
             yield return null;
         }
+
         audioSource.volume = 1f;
     }
 }

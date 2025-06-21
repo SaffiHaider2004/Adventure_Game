@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +8,7 @@ public class ZombieType
 {
     public GameObject prefab;
     [Range(0, 100)]
-    public int spawnChance; // percentage chance (50/40/10 for female/male/monster)
+    public int spawnChance;
 }
 
 public class ZombieSpawner : MonoBehaviour
@@ -29,6 +29,21 @@ public class ZombieSpawner : MonoBehaviour
     private List<GameObject> spawnedZombies = new List<GameObject>();
     private bool isNight = false;
     private Coroutine spawnCoroutine;
+    private WaitForSeconds wait;
+
+    void Start()
+    {
+        if (timeController == null)
+            Debug.LogError("❌ TimeController not assigned in ZombieSpawner.");
+
+        if (player == null)
+            Debug.LogError("❌ Player reference missing in ZombieSpawner.");
+
+        if (zombieTypes == null || zombieTypes.Count == 0)
+            Debug.LogError("❌ Zombie types list is empty in ZombieSpawner.");
+
+        wait = new WaitForSeconds(spawnInterval);
+    }
 
     void Update()
     {
@@ -36,28 +51,26 @@ public class ZombieSpawner : MonoBehaviour
             return;
 
         TimeSpan currentTime = timeController.GetCurrentTime().TimeOfDay;
-        TimeSpan nightStart = TimeSpan.FromHours(19); // 7 PM
+        TimeSpan nightStart = TimeSpan.FromHours(19);
         TimeSpan nightEnd = TimeSpan.FromHours(timeController.sunriseHour);
 
         bool currentlyNight = currentTime >= nightStart || currentTime < nightEnd;
 
-        if (currentlyNight && !isNight)
+        if (currentlyNight != isNight)
         {
-            isNight = true;
-            spawnCoroutine = StartCoroutine(SpawnZombies());
-        }
-        else if (!currentlyNight && isNight)
-        {
-            isNight = false;
-            if (spawnCoroutine != null)
-                StopCoroutine(spawnCoroutine);
+            isNight = currentlyNight;
 
-            foreach (var zombie in spawnedZombies)
+            if (isNight)
             {
-                if (zombie != null)
-                    Destroy(zombie);
+                spawnCoroutine = StartCoroutine(SpawnZombies());
             }
-            spawnedZombies.Clear();
+            else
+            {
+                if (spawnCoroutine != null)
+                    StopCoroutine(spawnCoroutine);
+
+                ClearZombies();
+            }
         }
     }
 
@@ -67,13 +80,17 @@ public class ZombieSpawner : MonoBehaviour
         {
             if (spawnedZombies.Count < maxZombiesAtOnce)
             {
-                Vector3 spawnPosition = GetRandomSpawnPosition();
                 GameObject prefab = GetRandomZombiePrefab();
-                GameObject zombie = Instantiate(prefab, spawnPosition, Quaternion.identity);
-                spawnedZombies.Add(zombie);
+                Vector3 spawnPos = GetRandomSpawnPosition();
+
+                if (prefab != null)
+                {
+                    GameObject zombie = Instantiate(prefab, spawnPos, Quaternion.identity);
+                    spawnedZombies.Add(zombie);
+                }
             }
 
-            yield return new WaitForSeconds(spawnInterval);
+            yield return wait;
         }
     }
 
@@ -85,7 +102,7 @@ public class ZombieSpawner : MonoBehaviour
         foreach (var type in zombieTypes)
         {
             cumulative += type.spawnChance;
-            if (roll < cumulative)
+            if (roll < cumulative && type.prefab != null)
                 return type.prefab;
         }
 
@@ -94,15 +111,25 @@ public class ZombieSpawner : MonoBehaviour
 
     private Vector3 GetRandomSpawnPosition()
     {
-        Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
+        Vector2 randomDir = UnityEngine.Random.insideUnitCircle.normalized;
         float distance = UnityEngine.Random.Range(minSpawnDistance, maxSpawnDistance);
-        Vector3 spawnPosition = player.position + new Vector3(randomDirection.x, 0, randomDirection.y) * distance;
+        Vector3 position = player.position + new Vector3(randomDir.x, 0, randomDir.y) * distance;
 
-        if (Physics.Raycast(spawnPosition + Vector3.up * 50, Vector3.down, out RaycastHit hit, 100f))
+        if (Physics.Raycast(position + Vector3.up * 50f, Vector3.down, out RaycastHit hit, 100f))
         {
-            spawnPosition.y = hit.point.y;
+            position.y = hit.point.y;
         }
 
-        return spawnPosition;
+        return position;
+    }
+
+    private void ClearZombies()
+    {
+        foreach (var zombie in spawnedZombies)
+        {
+            if (zombie != null)
+                Destroy(zombie);
+        }
+        spawnedZombies.Clear();
     }
 }

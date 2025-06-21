@@ -10,25 +10,30 @@ public class GameManager : MonoBehaviour
     public Transform caveSpawnPoint;
     public GameObject player;
 
-    public bool caveEntered = false;
+    private bool caveEntered = false;
 
     void Update()
     {
-        if (!caveEntered && playerInventory.applesCollected >= 4 && templeDoor.playerReached)
+        if (caveEntered) return;
+
+        if (playerInventory != null && templeDoor != null &&
+            playerInventory.applesCollected >= 4 && templeDoor.playerReached)
         {
             EnterCaveLevel();
         }
     }
 
-    void EnterCaveLevel()
+    private void EnterCaveLevel()
     {
         caveEntered = true;
         Debug.Log("Entering Cave Level!");
 
-        player.transform.position = caveSpawnPoint.position;
-        player.transform.rotation = caveSpawnPoint.rotation;
-        worldObjects.SetActive(false);
-        caveLevel.SetActive(true);
+        if (player != null && caveSpawnPoint != null)
+        {
+            player.transform.SetPositionAndRotation(caveSpawnPoint.position, caveSpawnPoint.rotation);
+        }
 
+        if (worldObjects != null) worldObjects.SetActive(false);
+        if (caveLevel != null) caveLevel.SetActive(true);
     }
 }

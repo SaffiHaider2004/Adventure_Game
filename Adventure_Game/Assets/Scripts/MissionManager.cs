@@ -21,40 +21,46 @@ public class MissionManager : MonoBehaviour
     void Awake()
     {
         if (instance == null) instance = this;
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     void Start()
     {
-        Debug.Log("✅ MissionManager initialized in scene: " + gameObject.name);
+        Debug.Log("✅ MissionManager initialized in scene: " + SceneManager.GetActiveScene().name);
 
-        if (GameStateManager.instance != null)
+        if (GameStateManager.instance == null)
         {
-            switch (GameStateManager.instance.currentPhase)
-            {
-                case GameStateManager.MissionPhase.CollectApples:
-                    UpdateMissionText("Collect 5 apples");
-                    UpdateUI();
-                    break;
+            Debug.LogWarning("❌ GameStateManager not found.");
+            return;
+        }
 
-                case GameStateManager.MissionPhase.EscapeCave:
-                    UpdateMissionText("Escape the cave");
-                    if (appleCountText != null) appleCountText.text = "";
-                    break;
+        switch (GameStateManager.instance.currentPhase)
+        {
+            case GameStateManager.MissionPhase.CollectApples:
+                UpdateMissionText("Collect 5 apples");
+                UpdateUI();
+                break;
 
-                case GameStateManager.MissionPhase.KillZombies:
-                    UpdateMissionText("Kill 3 zombies");
-                    UpdateUI();
-                    break;
-            }
+            case GameStateManager.MissionPhase.EscapeCave:
+                UpdateMissionText("Escape the cave");
+                ClearUI();
+                break;
+
+            case GameStateManager.MissionPhase.KillZombies:
+                UpdateMissionText("Kill 3 zombies");
+                UpdateUI();
+                break;
         }
     }
 
     // ---------------------- APPLE MISSION ----------------------
     public void CollectApple()
     {
-        if (GameStateManager.instance.currentPhase != GameStateManager.MissionPhase.CollectApples)
-            return;
+        if (GameStateManager.instance.currentPhase != GameStateManager.MissionPhase.CollectApples) return;
 
         appleCount++;
         UpdateUI();
@@ -66,16 +72,12 @@ public class MissionManager : MonoBehaviour
         }
     }
 
-    public bool ApplesCollected()
-    {
-        return appleCount >= targetAppleCount;
-    }
+    public bool ApplesCollected() => appleCount >= targetAppleCount;
 
     // ---------------------- ZOMBIE MISSION ----------------------
     public void OnZombieKilled()
     {
-        if (GameStateManager.instance.currentPhase != GameStateManager.MissionPhase.KillZombies)
-            return;
+        if (GameStateManager.instance.currentPhase != GameStateManager.MissionPhase.KillZombies) return;
 
         zombiesKilled++;
         UpdateUI();
@@ -84,13 +86,11 @@ public class MissionManager : MonoBehaviour
         {
             Debug.Log("✅ Zombie mission complete!");
             UpdateMissionText("Mission Complete!");
-
-            // Restart loop after short delay
-            Invoke("RestartMissionLoop", 2f);
+            Invoke(nameof(RestartMissionLoop), 2f);
         }
     }
 
-    // ---------------------- UTIL ----------------------
+    // ---------------------- UI ----------------------
     void UpdateUI()
     {
         if (appleCountText == null)
@@ -99,28 +99,34 @@ public class MissionManager : MonoBehaviour
             return;
         }
 
-        if (GameStateManager.instance.currentPhase == GameStateManager.MissionPhase.CollectApples)
+        switch (GameStateManager.instance.currentPhase)
         {
-            appleCountText.text = $"Apples: {appleCount} / {targetAppleCount}";
-        }
-        else if (GameStateManager.instance.currentPhase == GameStateManager.MissionPhase.KillZombies)
-        {
-            appleCountText.text = $"Zombies: {zombiesKilled} / {targetZombieCount}";
+            case GameStateManager.MissionPhase.CollectApples:
+                appleCountText.text = $"Apples: {appleCount} / {targetAppleCount}";
+                break;
+
+            case GameStateManager.MissionPhase.KillZombies:
+                appleCountText.text = $"Zombies: {zombiesKilled} / {targetZombieCount}";
+                break;
         }
     }
 
-    void MissionComplete()
+    void ClearUI()
     {
-        Debug.Log("Mission Complete!");
-        // You can add effects or sounds here if needed
+        if (appleCountText != null)
+            appleCountText.text = "";
     }
 
     void UpdateMissionText(string message)
     {
         if (missionText != null)
-        {
             missionText.text = message;
-        }
+    }
+
+    void MissionComplete()
+    {
+        Debug.Log("🏁 Mission Complete!");
+        // Add audio, visual feedback or effects if needed
     }
 
     // ---------------------- LOOP SYSTEM ----------------------
@@ -131,29 +137,24 @@ public class MissionManager : MonoBehaviour
         // Reset mission state
         appleCount = 0;
         zombiesKilled = 0;
-
         GameStateManager.instance.currentPhase = GameStateManager.MissionPhase.CollectApples;
 
-        // Load the correct forest scene again
         string currentScene = SceneManager.GetActiveScene().name;
-        string returnScene = "";
-
-        switch (currentScene)
+        string returnScene = currentScene switch
         {
-            case "Demo_Scene":
-                returnScene = "Scene1";
-                break;
-            case "cat_cave":
-                returnScene = "Scene2";
-                break;
-            case "Dog_Cave":
-                returnScene = "Scene3";
-                break;
-            default:
-                Debug.LogWarning("Unknown cave scene: " + currentScene);
-                return;
-        }
+            "Demo_Scene" => "Scene1",
+            "cat_cave" => "Scene2",
+            "Dog_Cave" => "Scene3",
+            _ => null
+        };
 
-        SceneManager.LoadScene(returnScene);
+        if (!string.IsNullOrEmpty(returnScene))
+        {
+            SceneManager.LoadScene(returnScene);
+        }
+        else
+        {
+            Debug.LogWarning("❓ Unknown cave scene: " + currentScene);
+        }
     }
 }
