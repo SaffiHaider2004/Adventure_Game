@@ -126,7 +126,7 @@ public class MissionManager : MonoBehaviour
     void MissionComplete()
     {
         Debug.Log("🏁 Mission Complete!");
-        // Add audio, visual feedback or effects if needed
+        // Add optional effects/audio
     }
 
     // ---------------------- LOOP SYSTEM ----------------------
@@ -134,27 +134,12 @@ public class MissionManager : MonoBehaviour
     {
         Debug.Log("🔁 Restarting mission loop...");
 
-        // Reset mission state
         appleCount = 0;
         zombiesKilled = 0;
         GameStateManager.instance.currentPhase = GameStateManager.MissionPhase.CollectApples;
 
+        // Reload the current scene — zombie phase already happens in forest
         string currentScene = SceneManager.GetActiveScene().name;
-        string returnScene = currentScene switch
-        {
-            "Demo_Scene" => "Scene1",
-            "cat_cave" => "Scene2",
-            "Dog_Cave" => "Scene3",
-            _ => null
-        };
-
-        if (!string.IsNullOrEmpty(returnScene))
-        {
-            SceneManager.LoadScene(returnScene);
-        }
-        else
-        {
-            Debug.LogWarning("❓ Unknown cave scene: " + currentScene);
-        }
+        SceneManager.LoadScene(currentScene);
     }
 }

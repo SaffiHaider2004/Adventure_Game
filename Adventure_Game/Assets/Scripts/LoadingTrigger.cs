@@ -1,13 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LoadingTrigger : MonoBehaviour
 {
-    
     public GameObject loadingScreen;
 
     private void Start()
     {
-        // Make sure the loading screen is disabled at the start
         if (loadingScreen != null)
         {
             loadingScreen.SetActive(false);
@@ -20,25 +18,21 @@ public class LoadingTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the colliding object is the player
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+
+        // ✅ Only show loading screen if apples are collected
+        if (MissionManager.instance != null && MissionManager.instance.ApplesCollected())
         {
             if (loadingScreen != null)
             {
                 loadingScreen.SetActive(true);
-
-                // OPTIONAL: Load the next scene after a delay (uncomment below to use)
-                // StartCoroutine(LoadNextSceneAfterDelay(2f)); // e.g. 2 seconds
+                // Optional: Start loading the next scene here
+                // StartCoroutine(LoadNextSceneAfterDelay(2f));
             }
         }
+        else
+        {
+            Debug.Log("🛑 Player reached temple but hasn't collected all apples yet.");
+        }
     }
-
-    // OPTIONAL coroutine if you want to load a new scene after showing the loading screen
-    /*
-    private IEnumerator LoadNextSceneAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("YourSceneName"); // Replace with your actual scene name or build index
-    }
-    */
 }

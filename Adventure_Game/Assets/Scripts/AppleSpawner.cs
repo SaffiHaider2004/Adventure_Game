@@ -1,11 +1,13 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
+
 public class AppleSpawner : MonoBehaviour
 {
-    public GameObject applePrefab;             // Assign your apple prefab here
-    public Transform[] spawnPoints;            // Drop all your empty GameObjects here
-    public int numberOfApples = 5;             // How many apples to spawn
+    public GameObject applePrefab;
+    public Transform[] spawnPoints;
+    public int numberOfApples = 5;
 
     void Start()
     {
@@ -14,12 +16,31 @@ public class AppleSpawner : MonoBehaviour
 
     void SpawnApples()
     {
-        // Shuffle the spawn points to get random selection without repeating
         Transform[] shuffled = spawnPoints.OrderBy(x => Random.value).ToArray();
 
         for (int i = 0; i < Mathf.Min(numberOfApples, shuffled.Length); i++)
         {
-            Instantiate(applePrefab, shuffled[i].position, Quaternion.identity);
+            SpawnAppleAt(shuffled[i]);
         }
+    }
+
+    public void SpawnAppleAt(Transform point, float delay = 0f)
+    {
+        if (delay > 0f)
+        {
+            StartCoroutine(RespawnAfterDelay(point, delay));
+        }
+        else
+        {
+            GameObject apple = Instantiate(applePrefab, point.position, Quaternion.identity);
+            apple.GetComponent<CollectibleItem>().spawnPoint = point;
+            apple.GetComponent<CollectibleItem>().spawner = this;
+        }
+    }
+
+    private IEnumerator RespawnAfterDelay(Transform point, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SpawnAppleAt(point);
     }
 }
